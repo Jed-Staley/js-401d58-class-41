@@ -1,8 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal, ScrollView, Dimensions } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
 import styles from '../styles/others/AddAlarmModalStyles'; // Import the styles
 
 const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -13,6 +11,8 @@ interface AddAlarmModalProps {
   visible: boolean;
   onSave: (alarm: Alarm) => void;
   onClose: () => void;
+  onDelete?: (id: string) => void; // Add this prop for deleting an alarm
+  alarm?: Alarm | null;
 }
 
 interface Alarm {
@@ -59,7 +59,7 @@ const getFormattedDate = (date: Date, selectedDays: boolean[]): string => {
     : `${dayOfWeekAbbreviated}, ${monthAbbreviated} ${day}`;
 };
 
-const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose }) => {
+const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose, onDelete, alarm }) => {
   const [hour, setHour] = useState(12);
   const [minute, setMinute] = useState(0);
   const [ampm, setAmpm] = useState('AM');
@@ -77,6 +77,17 @@ const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose 
   const hourInterval = useRef<NodeJS.Timeout | null>(null);
   const minuteInterval = useRef<NodeJS.Timeout | null>(null);
   const ampmInterval = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (alarm) {
+      const [hourString, minuteString, period] = alarm.time.split(/[: ]/);
+      setHour(parseInt(hourString));
+      setMinute(parseInt(minuteString));
+      setAmpm(period as 'AM' | 'PM');
+      setCurrentDate(new Date());
+      setSelectedDays(alarm.selectedDays);
+    }
+  }, [alarm]);
 
   const handleHourChange = (direction: number) => {
     setHour((prevHour) => {
@@ -136,14 +147,21 @@ const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose 
   const handleSave = () => {
     const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${ampm}`;
     const info = formattedDate;
-    const alarm: Alarm = {
-      id: uuidv4(),
+    const newAlarm: Alarm = {
+      id: alarm?.id ?? generateUUID(), // Use the custom UUID generator
       time,
       info,
       selectedDays,
       isEnabled: true,
     };
-    onSave(alarm);
+    onSave(newAlarm);
+  };
+
+  const handleDelete = () => {
+    if (alarm && onDelete) {
+      onDelete(alarm.id);
+      onClose();
+    }
   };
 
   return (
@@ -203,7 +221,7 @@ const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose 
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.scrollableContainer}>
           <View style={styles.blankSpace}>
             <View style={styles.dateContainer}>
               {showChevrons && (
@@ -227,8 +245,15 @@ const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose 
                 </TouchableOpacity>
               ))}
             </View>
+            {alarm && (
+              <View style={styles.deleteContainer}>
+                <TouchableOpacity onPress={handleDelete}>
+                  <Ionicons name="trash" size={32} color="red" />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
-        </ScrollView>
+        </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={onClose} style={styles.button}>
             <Text style={styles.buttonText}>Cancel</Text>
@@ -243,3 +268,12 @@ const AddAlarmModal: React.FC<AddAlarmModalProps> = ({ visible, onSave, onClose 
 };
 
 export default AddAlarmModal;
+
+const generateUUID = (): string => {
+  // A simple UUID generator (not as robust as 'uuid' package, but works for demo purposes)
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+    v = c === 'x' ? r : (r & 0x3) | 0x8;
+  return v.toString(16);
+});
+};

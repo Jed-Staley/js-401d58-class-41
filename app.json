@@ -31,6 +31,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "notification": {
+      "iosDisplayInForeground": true,
+      "icon": "./assets/icon.png",
+      "androidMode": "default",
+      "androidCollapsedTitle": "New alarm"
     }
   }
 }

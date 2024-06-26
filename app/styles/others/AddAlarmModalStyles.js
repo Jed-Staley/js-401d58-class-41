@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
   },
   blankSpace: {
     width: '100%',
-    height: height - 350,
     backgroundColor: '#333333',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
+    marginTop: 50,
   },
   dateContainer: {
     flexDirection: 'row',
@@ -118,6 +118,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  deleteContainer: {
+    marginTop: 40,
+    alignItems: 'center',
   },
 });
 
