@@ -46,6 +46,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'gray',
   },
+  alarmModalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  alarmModal: {
+    width: 300,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  alarmModalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
 });
 
 export default styles;

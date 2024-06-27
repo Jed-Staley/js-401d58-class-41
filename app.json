@@ -3,6 +3,9 @@
     "name": "lab-41",
     "slug": "lab-41",
     "version": "1.0.0",
+    "assetBundlePatterns": [
+      "assets/*"
+    ],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -19,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "sound": "./assets/chime.mp3"
     },
     "web": {
       "bundler": "metro",
