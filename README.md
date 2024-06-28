@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+# Alarm App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An alarm application built using React Native, Expo, and TypeScript. This app allows users to set and manage alarms with notifications and sound.
 
-## Get started
+## Setup
 
-1. Install dependencies
+1. **Clone the repository:**
 
    ```bash
+   git clone https://github.com/yourusername/alarm-app.git
+   cd alarm-app
+   ```
+
+2. **Install dependencies:**
+   Make sure you have `yarn` or `npm` installed, then run:
+
+   ```bash
+   yarn install
+   # or
    npm install
    ```
 
-2. Start the app
+3. **Install Expo CLI (if not already installed):**
 
    ```bash
-    npx expo start
+   npm install -g expo-cli
    ```
 
-In the output, you'll find options to open the app in a
+4. **Run the application:**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   expo start
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+5. **Set up your device or emulator:**
+   - For iOS: Use an iPhone simulator or the Expo Go app on a physical device.
+   - For Android: Use an Android emulator or the Expo Go app on a physical device.
 
-## Get a fresh project
+## Process
 
-When you're ready, run:
+1. **Project Structure:**
+   The project is structured with a focus on modular components. The key folders and files are:
+   - `components`: Contains reusable components like `ParallaxScrollView`, `ThemedText`, and `ThemedView`.
+   - `others`: Contains the `AddAlarmModal` component for adding and managing alarms.
+   - `styles`: Contains styles for various components and screens.
+   - `App.tsx`: The main entry point of the application.
 
-```bash
-npm run reset-project
-```
+2. **Adding an Alarm:**
+   - Tap the add icon (`+`) on the main screen to open the `AddAlarmModal`.
+   - Set the time, additional information, and select the days for the alarm.
+   - Save the alarm to see it listed on the main screen.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+3. **Managing Alarms:**
+   - Toggle the switch to enable or disable an alarm.
+   - Long press an alarm to drag and reorder it in the list.
+   - Tap an alarm to edit or delete it using the `AddAlarmModal`.
 
-## Learn more
+4. **Notifications and Sounds:**
+   - The app uses `expo-notifications` to schedule and handle alarm notifications.
+   - The `expo-av` library is used to play alarm sounds.
+   - Notifications and sounds are triggered based on the alarm time and settings.
 
-To learn more about developing your project with Expo, look at the following resources:
+5. **Background Tasks:**
+   - Background tasks are managed using `expo-task-manager` and `expo-background-fetch`.
+   - Alarms are checked and notifications are scheduled even when the app is not in the foreground.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+6. **Permissions:**
+   - The app requests notification permissions on launch.
+   - Ensure permissions are granted for the app to function correctly.
 
-## Join the community
+7. **Development Notes:**
+   - Use the `GestureHandlerRootView` to wrap components that use gestures, such as `DraggableFlatList`.
+   - Maintain the modularity of components and ensure styles are defined in separate files for better readability and maintenance.
 
-Join our community of developers creating universal apps.
+Feel free to explore the code and contribute to the project by creating pull requests or issues on GitHub.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Author
+
+Jedidiah Staley
